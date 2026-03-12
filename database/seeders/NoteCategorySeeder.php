@@ -46,6 +46,36 @@ class NoteCategorySeeder extends Seeder
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
+            [
+                'note_id' => 4,
+                'category_id' => 2,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'note_id' => 4,
+                'category_id' => 4,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'note_id' => 5,
+                'category_id' => 3,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'note_id' => 5,
+                'category_id' => 5,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'note_id' => 6,
+                'category_id' => 6,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ]);
     }
 }

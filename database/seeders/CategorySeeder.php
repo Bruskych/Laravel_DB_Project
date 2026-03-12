@@ -20,6 +20,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Osobné', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Nápady', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'TODO', 'created_at' => $now, 'updated_at' => $now],
+            ['name' => 'Hry', 'created_at' => $now, 'updated_at' => $now],
         ]);
     }
 }
