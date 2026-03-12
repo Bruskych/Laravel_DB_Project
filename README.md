@@ -8,3 +8,22 @@
 </p>
 
 ## Images (Cvicenie 4)
+
+```CRUD```
+
+![1.png](images/common/1.png)
+![2.png](images/common/2.png)
+![3.png](images/common/3.png)
+![4.png](images/common/4.png)
+![5.png](images/common/5.png)
+
+```CUSTOM ENDPOINTS (CVICENIE)```
+
+![1.png](images/custom_endpoints/1.png)
+![2.png](images/custom_endpoints/2.png)
+![3.png](images/custom_endpoints/3.png)
+![4.png](images/custom_endpoints/4.png)
+
+```ONE CUSTOM METHOD (MY)```
+
+![my_custom.png](images/my_custom/my_custom.png)
