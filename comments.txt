@@ -1,6 +1,13 @@
 /*
 
+--- START ---
 C:\xampp\php\php.exe artisan serve
+php artisan serve
+
+--- TINKER ---
+php artisan tinker
+use App\Models\Note;
+Note::all();
 
 --- API ---
 php artisan install:api
@@ -13,5 +20,11 @@ php artisan migrate:fresh
 
 php artisan make:seeder NameSeeder
 php artisan db:seed
+
+--- CONTROLLER ---
+php artisan make:controller NameController --api
+
+--- MODEL ---
+php artisan make:model Name -m
 
 */
