@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-// use App\Models\Category;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder {
     use WithoutModelEvents;
@@ -29,6 +29,6 @@ class DatabaseSeeder extends Seeder {
             NoteCategorySeeder::class,
         ]);
 
-        // Category::factory()->count(10)->create();
+        Category::factory()->count(10)->create();
     }
 }
