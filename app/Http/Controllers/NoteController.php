@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use App\Models\Note;
 
 class NoteController extends Controller
@@ -184,8 +183,8 @@ class NoteController extends Controller
     */
     public function statsByStatus()
     {
-        $stats = DB::table('notes')
-            ->whereNull('deleted_at')
+        $stats = Note::query()
+            //->whereNull('deleted_at')
             ->select('status', DB::raw('COUNT(*) as count'))
             ->groupBy('status')
             ->orderBy('status')
@@ -212,8 +211,8 @@ class NoteController extends Controller
     */
     public function archiveOldDrafts()
     {
-        $affected = DB::table('notes')
-            ->whereNull('deleted_at')
+        $affected = Note::query()
+            //->whereNull('deleted_at')
             ->where('status', 'draft')
             ->where('updated_at', '<', now()->subDays(30))
             ->update([
@@ -244,11 +243,11 @@ class NoteController extends Controller
     */
     public function userNotesWithCategories(string $userId)
     {
-        $rows = DB::table('notes')
+        $rows = Note::query()
             ->join('note_category', 'notes.id', '=', 'note_category.note_id')
             ->join('categories', 'note_category.category_id', '=', 'categories.id')
             ->where('notes.user_id', $userId)
-            ->whereNull('notes.deleted_at')
+            //->whereNull('notes.deleted_at')
             ->orderBy('notes.updated_at', 'desc')
             ->select('notes.id', 'notes.title', 'categories.name as category')
             ->get();
@@ -286,9 +285,9 @@ class NoteController extends Controller
     }
     public function pinnedNotes()
     {
-        $notes = DB::table('notes')
+        $notes = Note::query()
             ->where('is_pinned', 1)
-            ->whereNull('deleted_at')
+            //->whereNull('deleted_at')
             ->get();
 
         return response()->json(['notes' => $notes], Response::HTTP_OK);
