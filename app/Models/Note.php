@@ -68,4 +68,13 @@ class Note extends Model
         $this->is_pinned = false;
         return $this->save();
     }
+
+    public static function latestByUser(int $userId, int $limit = 5)
+    {
+        return static::query()
+            ->where('user_id', $userId)
+            ->orderByDesc('updated_at')
+            ->limit($limit)
+            ->get();
+    }
 }

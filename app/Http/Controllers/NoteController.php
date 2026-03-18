@@ -336,4 +336,11 @@ class NoteController extends Controller
         $note->archive();
         return response()->json(['note' => $note, 'message' => 'Poznamka archivovana'], 200);
     }
+
+    // GET /api/users/{id}/latest-notes
+    public function latestUserNotes(string $userId)
+    {
+        $notes = Note::latestByUser($userId);
+        return response()->json(['notes' => $notes], Response::HTTP_OK);
+    }
 }

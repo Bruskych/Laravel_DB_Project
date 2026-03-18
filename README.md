@@ -9,14 +9,15 @@
 
 ## Images (Cvicenie 5) - Eloquent ORM / QB
 
-New methods are created that are then used in the NoteController
+New methods are created that are then used in the NoteController:
 
-```pin, unpin, publish, archive```
+```pin, unpin, publish, archive``` and ```latest-notes -``` this method sorts notes from newest to oldest (of a specific person)
 
 ![1.png](images/note_methods/1.png)
 ![2.png](images/note_methods/2.png)
 ![3.png](images/note_methods/3.png)
 ![4.png](images/note_methods/4.png)
+![5.png](images/note_methods/5.png)
 
 ## Images (Cvicenie 4)
 
