@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Models\Note;
 
 class NoteController extends Controller
@@ -24,10 +25,16 @@ class NoteController extends Controller
     public function index()
     {
         $notes = Note::query()
-            ->orderByDesc('updated_at')
+            ->select(['id', 'user_id', 'title', 'body', 'status', 'is_pinned', 'created_at'])
+            ->with([
+                'user:id,name',
+                'categories:id,name,color',
+            ])
+            ->orderByDesc('is_pinned')
+            ->orderByDesc('created_at')
             ->get();
 
-        return response()->json(['notes' => $notes], Response::HTTP_OK);
+        return response()->json(['notes' => $notes,], Response::HTTP_OK);
     }
     /**
      * Store a newly created resource in storage.

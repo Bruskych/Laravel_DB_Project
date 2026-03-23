@@ -20,7 +20,8 @@ class User extends Authenticatable
      * HasFactory<\Database\Factories\UserFactory>
      */
 
-    use HasFactory, Notifiable, SoftDeletes, HasFactory;
+    use HasFactory, Notifiable;
+    //use SoftDeletes;
 
     protected $table = 'users';
 
@@ -74,5 +75,17 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function tasks(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Task::class,
+            Note::class,
+            'user_id',         // Foreign key on the users table...
+            'note_id',       // Foreign key on the tasks table...
+            'id',              // Local key on the users table...
+            'id'         // Local key on the notes table...
+        );
     }
 }

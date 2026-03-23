@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
+    //use SoftDeletes;
 
     protected $table = 'categories';
 

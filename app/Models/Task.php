@@ -29,4 +29,9 @@ class Task extends Model
     {
         return $this->belongsTo(Note::class);
     }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }
