@@ -9,6 +9,8 @@
 
 ## Images (Cvicenie 6) - Connections and Factories
 
+```Task 1: NoteController CRUD``` 
+
 The method was tested in Postman:
 
 • successful request ```(existing ID)```
@@ -17,6 +19,20 @@ The method was tested in Postman:
 
 ![1-404.png](images/note_methods/1-404.png)
 ![2-404.png](images/note_methods/2-404.png)
+
+```Task 2: CategoryController CRUD```
+
+The method was tested in Postman:
+
+• GET /api/categories
+
+• PUT /api/categories/1
+
+• POST /api/categories - ```Check for duplicate name```
+
+![6.1.png](images/categories_crud/6.1.png)
+![6.2.png](images/categories_crud/6.2.png)
+![6.3.png](images/categories_crud/6.3.png)
 
 ## Images (Cvicenie 5) - Eloquent ORM / QB
 
