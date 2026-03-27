@@ -7,6 +7,15 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Images (Cvicenie 6) - Connections and Factories
+
+The method was tested in Postman:
+• successful request ```(existing ID)```
+• unsuccessful request ```(non-existent ID ➔ 404 JSON)```
+
+![1-404.png](images/note_methods/1-404.png)
+![2-404.png](images/note_methods/2-404.png)
+
 ## Images (Cvicenie 5) - Eloquent ORM / QB
 
 New methods are created that are then used in the NoteController:
