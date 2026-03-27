@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Category;
+use Illuminate\Validation\Rule; // pre validáciu
 
 class CategoryController extends Controller
 {
@@ -22,9 +23,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = Category::create([
-            'name' => $request->name
-        ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:64|unique:categories,name'
+        ]); // validácia
+        $category = Category::create($validated);
 
         return response()->json(['category' => $category], 201);
     }
@@ -34,7 +36,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
@@ -46,11 +48,19 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }
-        $category->update(['name' => $request->name]);
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:64',
+                Rule::unique('categories')->ignore($category->id) //pri úprave musí byť možné ponechať pôvodný name
+            ]
+        ]); // validácia
+        $category->update($validated);
         return response()->json(['category' => $category], 200);
     }
 
@@ -59,7 +69,7 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         if (!$category) {
             return response()->json(['message' => 'Category not found'], 404);
         }

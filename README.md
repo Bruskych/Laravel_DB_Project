@@ -10,7 +10,9 @@
 ## Images (Cvicenie 6) - Connections and Factories
 
 The method was tested in Postman:
+
 • successful request ```(existing ID)```
+
 • unsuccessful request ```(non-existent ID ➔ 404 JSON)```
 
 ![1-404.png](images/note_methods/1-404.png)
