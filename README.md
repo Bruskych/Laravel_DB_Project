@@ -34,6 +34,20 @@ The method was tested in Postman:
 ![6.2.png](images/categories_crud/6.2.png)
 ![6.3.png](images/categories_crud/6.3.png)
 
+```Task 3: TaskController CRUD```
+
+The method was tested in Postman:
+
+• POST /api/notes/4/tasks
+
+• POST /api/notes/4/tasks - ```failed validation```
+
+• GET /api/notes/111/tasks/111 - ```non-existent ID (404 JSON)```
+
+![1.png](images/tasks_crud/1.png)
+![2.png](images/tasks_crud/2.png)
+![3.png](images/tasks_crud/3.png)
+
 ## Images (Cvicenie 5) - Eloquent ORM / QB
 
 New methods are created that are then used in the NoteController:
