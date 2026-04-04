@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -20,7 +22,7 @@ class User extends Authenticatable
      * HasFactory<\Database\Factories\UserFactory>
      */
 
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
     //use SoftDeletes;
 
     protected $table = 'users';
@@ -87,5 +89,10 @@ class User extends Authenticatable
             'id',              // Local key on the users table...
             'id'         // Local key on the notes table...
         );
+    }
+
+    public function hasActivePremium(): bool
+    {
+        return $this->premium_until !== null && $this->premium_until->isFuture();
     }
 }

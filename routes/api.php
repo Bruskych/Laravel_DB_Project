@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CategoryController;
@@ -31,3 +32,7 @@ Route::patch('notes/{id}/unpin', [NoteController::class, 'unpin']);
 Route::patch('notes/{id}/publish', [NoteController::class, 'publish']);
 Route::patch('notes/{id}/archive', [NoteController::class, 'archive']);
 Route::get('users/{user}/latest-notes', [NoteController::class, 'latestUserNotes']);
+// AuthController
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
