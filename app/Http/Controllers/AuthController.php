@@ -4,55 +4,72 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rules\Password;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\User;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+        $validated = $request->validate([
+            'name'     => ['required', 'string', 'min:2', 'max:128'],
+            'email'    => ['required', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'confirmed', Password::min(12)
+                ->letters()
+                ->mixedCase()
+                ->numbers()
+                ->symbols()],
         ]);
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'     => $validated['name'],
+            'email'    => $validated['email'],
+            'password' => $validated['password'], // каст в модели уже захеширует
+            'role'     => User::ROLE_USER,        // по умолчанию 'user'
         ]);
-        $token = $user->createToken('api_token')->plainTextToken;
+
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], 201);
+            'message' => 'Registrácia prebehla úspešne.',
+            'user'    => $user,
+            'token'   => $token,
+        ], Response::HTTP_CREATED);
     }
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
+        $validated = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required', 'string'],
         ]);
-        $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        $user = User::where('email', $validated['email'])->first();
+
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
+            return response()->json([
+                'message' => 'Nesprávny email alebo heslo.',
+            ], Response::HTTP_UNAUTHORIZED);
         }
-        $token = $user->createToken('api_token')->plainTextToken;
+
+        $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+            'message' => 'Prihlásenie bolo úspešné.',
+            'user'    => $user,
+            'token'   => $token,
+        ], Response::HTTP_OK);
+    }
+    public function me(Request $request)
+    {
+        return response()->json($request->user());
     }
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
         return response()->json([
-            'message' => 'Logged out successfully',
-        ]);
+            'message' => 'Odhlásenie prebehlo úspešne.',
+        ], Response::HTTP_OK);
     }
 }

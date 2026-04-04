@@ -13,15 +13,18 @@
 
 The method was tested in Postman:
 
-• POST /api/login
+• POST /api/auth/login
 
-• POST /api/register
+• POST /api/auth/register
 
-• POST /api/logout
+• POST /api/auth/me
+
+• POST /api/auth/logout
 
 ![1.png](images/auth/1.png)
 ![2.png](images/auth/2.png)
 ![3.png](images/auth/3.png)
+![4.png](images/auth/4.png)
 
 ## Images (Cvicenie 6) - Connections and Factories
 

@@ -33,6 +33,11 @@ Route::patch('notes/{id}/publish', [NoteController::class, 'publish']);
 Route::patch('notes/{id}/archive', [NoteController::class, 'archive']);
 Route::get('users/{user}/latest-notes', [NoteController::class, 'latestUserNotes']);
 // AuthController
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::prefix('auth')->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/me', [AuthController::class, 'me']);
+        Route::post('/logout', [AuthController::class, 'logout']);
+    });
+});
