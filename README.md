@@ -7,6 +7,22 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Images (Cvicenie 7) - Sanctum
+
+```Task 1: AuthController Test```
+
+The method was tested in Postman:
+
+• POST /api/login
+
+• POST /api/register
+
+• POST /api/logout
+
+![1.png](images/auth/1.png)
+![2.png](images/auth/2.png)
+![3.png](images/auth/3.png)
+
 ## Images (Cvicenie 6) - Connections and Factories
 
 ```Task 1: NoteController CRUD``` 
