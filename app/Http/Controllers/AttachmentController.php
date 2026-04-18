@@ -11,23 +11,31 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File;
 use Throwable;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AttachmentController extends Controller
 {
+    use AuthorizesRequests;
+
+    /**
+     * GET /notes/{note}/attachments
+     * - môže vidieť každý, kto vidí note (policy Note)
+     */
     public function index(Note $note)
     {
-
-        $attachments = $note->attachments()
-            ->latest()
-            ->get();
-
-        return response()->json([
-            'attachments' => $attachments,
-        ], Response::HTTP_OK);
+        $this->authorize('view', $note);
+        return response()->json(['attachments' => $note->attachments()->latest()->get(),], Response::HTTP_OK);
     }
 
+    /**
+     * POST /notes/{note}/attachments
+     * - iba premium + autor alebo admin
+     */
     public function store(Request $request, Note $note)
     {
+        // policy: len autor alebo admin
+        $this->authorize('create', [Attachment::class, $note]);
+
         $validated = $request->validate([
             'files' => ['required', 'array', 'min:1', 'max:10'],
             'files.*' => [
@@ -36,7 +44,7 @@ class AttachmentController extends Controller
             ],
         ]);
 
-        $disk = 'local';
+        $disk = 'public';
         $created = [];
         $storedPaths = [];
 
@@ -45,7 +53,7 @@ class AttachmentController extends Controller
 
             foreach ($validated['files'] as $file) {
 
-                $directory = 'attachments/notes/' . $note->id . '/' . now()->format('Y/m');
+                $directory = "attachments/notes/{$note->id}/" . now()->format('Y/m');
 
                 $path = $file->store($directory, $disk);
 
@@ -76,7 +84,6 @@ class AttachmentController extends Controller
 
             return response()->json([
                 'message' => 'Prílohy sa nepodarilo uložiť.',
-                'error' => $e->getMessage(), // полезно для дебага
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
@@ -86,16 +93,40 @@ class AttachmentController extends Controller
         ], Response::HTTP_CREATED);
     }
 
+    /**
+     * GET temporary download link
+     * - každý kto vidí note môže stiahnuť
+     */
     public function link(Attachment $attachment)
     {
+        $this->authorize('view', $attachment);
 
-        $expiresAt = now()->addSeconds(30);
+        $note = $attachment->attachable;
 
-        $url = Storage::disk($attachment->disk)->temporaryUrl($attachment->path, $expiresAt);
+        if (!$note || !$note->user_id) {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
+
+        $expiresAt = now()->addSeconds(60);
 
         return response()->json([
-            'url' => $url,
-            'expires_at' => $expiresAt->toIso8601String(),
-        ], Response::HTTP_OK);
+            'url' => Storage::disk($attachment->disk)
+                ->temporaryUrl($attachment->path, $expiresAt),
+            'expires_at' => $expiresAt,
+        ]);
+    }
+
+    /**
+     * DELETE attachment
+     * - iba autor note alebo admin
+     */
+    public function destroy(Attachment $attachment)
+    {
+        $this->authorize('delete', $attachment);
+
+        Storage::disk($attachment->disk)->delete($attachment->path);
+        $attachment->delete();
+
+        return response()->json(['message' => 'Príloha bola odstránená.'], Response::HTTP_OK);
     }
 }

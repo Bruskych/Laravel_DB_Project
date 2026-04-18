@@ -62,6 +62,32 @@ The method was tested in Postman:
 
 ---
 
+```Task 4: AuthController - PremiumOnly + Policy```
+
+The method was tested in Postman:
+
+• At first, I will make requests as a regular user.
+• I updated the premium_until field in my account.
+
+![1.1.png](images/premium_user/1.1.png)
+![1.png](images/premium_user/1.png)
+
+• POST /api/notes/{note}/attachments - ```ADD PHOTO (USER vs USER_PREMIUM)```
+
+![2.1.png](images/premium_user/2.1.png)
+![2.png](images/premium_user/2.png)
+
+• GET /api/notes/{note}/attachments - ```GET ATTACHMENTS (USER vs USER_PREMIUM)```
+
+![3.1.png](images/premium_user/3.1.png)
+![3.png](images/premium_user/3.png)
+
+• GET /api/attachments/{note}/link - ```GET LINK (USER vs USER_PREMIUM)```
+
+![4.png](images/premium_user/4.png)
+
+---
+
 ## Images (Cvicenie 7) - Sanctum
 
 ```Task 1: AuthController Test```
