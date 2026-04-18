@@ -9,6 +9,10 @@
 
 ## Images (Cvicenie 8) - Authorize
 
+```Task 1: Note and Task authorize```
+
+--
+
 ```Task 2: CommentController```
 
 The method was tested in Postman:
@@ -26,6 +30,14 @@ The method was tested in Postman:
 ![3.png](images/comments/3.png)
 ![4.png](images/comments/4.png)
 ![5.png](images/comments/5.png)
+
+```Task 3: AuthController - Photo```
+
+The method was tested in Postman:
+
+• POST /api/auth/me/profile-photo - ```ADD PHOTO```
+
+![1.png](images/upload_profile_photo/1.png)
 
 ## Images (Cvicenie 7) - Sanctum
 
