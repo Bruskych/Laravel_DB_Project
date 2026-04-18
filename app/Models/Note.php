@@ -101,4 +101,10 @@ class Note extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function attachments(): MorphMany
+    {
+        return $this->morphMany(Attachment::class, 'attachable')
+            ->where('collection', 'attachment');
+    }
 }
